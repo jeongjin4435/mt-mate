@@ -3,60 +3,252 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Home | MT-Mate</title>
+  <title>MT-Mate | 엑셀형 MT 기획 대시보드</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body data-page="home">
-  <header class="site-header">
-    <nav class="navbar">
-      <a class="logo" href="index.html"><span class="logo-mark">MT</span><span>MT-Mate</span></a>
-      <div class="nav-links"><a href="index.html">Home</a><a href="participants.html">Participants</a><a href="lodging.html">Lodging</a><a href="transport.html">Transport</a><a href="schedule.html">Schedule</a><a href="budget.html">Budget</a><a href="games.html">Games</a><a href="checklist.html">Checklist</a><a href="roles.html">Roles</a></div>
-      <button id="themeToggle" class="theme-toggle" aria-label="테마 변경">🌙</button>
-    </nav>
+<body>
+  <header class="app-header">
+    <div>
+      <p class="eyebrow">MT-Mate</p>
+      <h1>엑셀처럼 정리하는 MT 기획 대시보드</h1>
+      <p class="lead">참가자, 입금, 숙소, 교통, 예산, 일정, 게임 후보를 한 화면에서 수정하고 공유할 수 있게 만든 기획자용 웹앱입니다.</p>
+    </div>
+    <div class="header-actions">
+      <button id="copySummaryBtn" class="btn ghost">요약 복사</button>
+      <button id="printBtn" class="btn ghost">인쇄</button>
+      <button id="themeBtn" class="btn primary">🌙</button>
+    </div>
   </header>
-  <main>
-    <section class="page-title">
-      <h1>Home</h1>
-      <p>학생회와 동아리를 위한 MT 기획 관리 웹앱입니다.</p>
-    </section>
-    
-<section class="hero">
-  <div>
-    <h1>MT 준비를 한 곳에서 정리하는 기획 도우미</h1>
-    <p>숙소 후보, 참가자 명단, 입금 여부, 교통비, 일정표, 게임 후보, 준비물까지 MT 기획자가 반복해서 정리해야 하는 내용을 웹에서 관리할 수 있습니다.</p>
-    <div class="hero-badges">
-      <span class="badge">숙소 비교</span><span class="badge">참가자 명단</span><span class="badge">입금 체크</span><span class="badge">예산 계산</span><span class="badge">일정표 출력</span>
-    </div>
-    <div class="cta-row">
-      <a class="btn" href="participants.html">참가자 정리하기</a>
-      <a class="btn secondary" href="budget.html">예산 계산하기</a>
-    </div>
-  </div>
-  <div class="hero-panel">
-    <h2>기획자가 가장 많이 확인하는 것</h2>
-    <div class="hero-stat">
-      <div class="stat-card"><strong>명단</strong><span>참석 여부와 입금 상태</span></div>
-      <div class="stat-card"><strong>숙소</strong><span>가격, 추가금, 방/화장실</span></div>
-      <div class="stat-card"><strong>예산</strong><span>숙소+교통+식비 총액</span></div>
-      <div class="stat-card"><strong>일정</strong><span>시간표 작성과 출력</span></div>
-    </div>
-    <p class="notice">실제 전화번호나 학번을 입력할 경우 개인 기기에서만 사용하세요. 이 웹앱은 서버 없이 브라우저 localStorage에만 저장됩니다.</p>
-  </div>
-</section>
-<section class="section">
-  <div class="section-head"><div><h2>주요 기능</h2><p>HTML, CSS, JavaScript 기능이 다양하게 보이도록 구성했습니다.</p></div></div>
-  <div class="grid three">
-    <a class="card" href="participants.html"><div class="icon">👥</div><h3>참가자 & 입금 관리</h3><p>이름, 학번, 연락처, 참석 여부, 입금 여부를 표로 정리합니다.</p></a>
-    <a class="card" href="lodging.html"><div class="icon">🏠</div><h3>숙소 후보 비교</h3><p>지역별 필터, 추가 인원 요금, 총 숙소비, 숙소 링크를 관리합니다.</p></a>
-    <a class="card" href="budget.html"><div class="icon">💸</div><h3>계산 정리</h3><p>숙소비, 추가금, 교통비, 식비, 준비비를 합산해 1인당 비용을 계산합니다.</p></a>
-    <a class="card" href="schedule.html"><div class="icon">🗓️</div><h3>MT 시간표</h3><p>날짜와 시간별 일정을 추가하고 인쇄할 수 있습니다.</p></a>
-    <a class="card" href="games.html"><div class="icon">🎲</div><h3>게임 후보 정리</h3><p>게임 룰, 준비물, 더 재밌게 하는 팁, 주의사항을 모달로 확인합니다.</p></a>
-    <a class="card" href="checklist.html"><div class="icon">✅</div><h3>준비물 체크리스트</h3><p>카테고리별 준비물을 체크하고 완료율을 확인합니다.</p></a>
-  </div>
-</section>
 
+  <main class="app-shell">
+    <aside class="side-panel">
+      <div class="project-box">
+        <label for="eventName">행사명</label>
+        <input id="eventName" type="text" placeholder="예: AI·SW 계열 MT" />
+        <label for="eventType">행사 유형</label>
+        <select id="eventType">
+          <option value="department">계열 MT</option>
+          <option value="lab">랩실 MT</option>
+          <option value="club">동아리 MT</option>
+          <option value="etc">기타</option>
+        </select>
+        <label class="check-line">
+          <input id="showStudentId" type="checkbox" /> 학번 칸 표시
+        </label>
+        <p class="mini-help">랩실/동아리 MT처럼 학번이 필요 없으면 숨겨서 더 간단하게 정리할 수 있어요.</p>
+      </div>
+
+      <nav class="tab-nav" aria-label="MT-Mate menu">
+        <button class="tab-btn active" data-tab="dashboard">대시보드</button>
+        <button class="tab-btn" data-tab="participants">참가자/입금</button>
+        <button class="tab-btn" data-tab="lodging">숙소 후보</button>
+        <button class="tab-btn" data-tab="transport">교통</button>
+        <button class="tab-btn" data-tab="budget">계산 정리</button>
+        <button class="tab-btn" data-tab="schedule">일정표</button>
+        <button class="tab-btn" data-tab="games">게임 후보</button>
+        <button class="tab-btn" data-tab="backup">공유/백업</button>
+      </nav>
+    </aside>
+
+    <section class="content-panel">
+      <section id="dashboard" class="tab-page active">
+        <div class="section-title">
+          <div>
+            <p class="eyebrow">Overview</p>
+            <h2>현재 MT 준비 상황</h2>
+          </div>
+          <button class="btn primary" data-add-sample>샘플 데이터 넣기</button>
+        </div>
+        <div class="stats-grid" id="summaryCards"></div>
+        <div class="split-grid">
+          <article class="card">
+            <h3>오늘 바로 확인할 것</h3>
+            <ul class="todo-list" id="quickCheckList"></ul>
+          </article>
+          <article class="card">
+            <h3>기획자용 빠른 기능</h3>
+            <div class="quick-buttons">
+              <button class="btn ghost" data-jump="participants">참가자 추가</button>
+              <button class="btn ghost" data-jump="lodging">숙소 비교</button>
+              <button class="btn ghost" data-jump="budget">총액 계산</button>
+              <button class="btn ghost" data-jump="schedule">일정표 작성</button>
+            </div>
+            <p class="mini-help">모든 표는 입력 후 바로 수정 가능하고, CSV로 내려받으면 엑셀에서 열 수 있습니다.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="participants" class="tab-page">
+        <div class="section-title">
+          <div>
+            <p class="eyebrow">Participants</p>
+            <h2>참가자 명단 & 입금 여부</h2>
+          </div>
+          <div class="action-row">
+            <button class="btn primary" id="addParticipantBtn">+ 행 추가</button>
+            <button class="btn ghost" data-copy="participants">표 복사</button>
+            <button class="btn ghost" data-csv="participants">CSV 다운로드</button>
+          </div>
+        </div>
+        <div class="helper-card">
+          <strong>여러 명 한 번에 붙여넣기</strong>
+          <p>엑셀/메모장에서 복사한 내용을 붙여넣으면 행으로 추가됩니다. 형식: 이름, 학번, 전화번호 또는 이름, 전화번호</p>
+          <textarea id="bulkParticipants" placeholder="예: 김하나 202512345 010-0000-0000&#10;이두리 010-1111-1111"></textarea>
+          <button class="btn ghost" id="bulkAddParticipantsBtn">붙여넣은 명단 추가</button>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table" id="participantsTable"></table>
+        </div>
+      </section>
+
+      <section id="lodging" class="tab-page">
+        <div class="section-title">
+          <div>
+            <p class="eyebrow">Lodging</p>
+            <h2>숙소 후보 비교표</h2>
+          </div>
+          <div class="action-row">
+            <button class="btn primary" id="addLodgingBtn">+ 숙소 행 추가</button>
+            <button class="btn ghost" data-copy="lodgings">표 복사</button>
+            <button class="btn ghost" data-csv="lodgings">CSV 다운로드</button>
+          </div>
+        </div>
+        <div class="filter-bar">
+          <label>지역 선택</label>
+          <select id="regionSelect"></select>
+          <button class="btn ghost" id="filterRegionBtn">선택 지역만 보기</button>
+          <button class="btn ghost" id="showAllRegionsBtn">전체 보기</button>
+          <div class="recent-box">
+            <span>최근 선택 지역</span>
+            <div id="recentRegions" class="chip-row"></div>
+          </div>
+        </div>
+        <p class="mini-help">기본 행은 꼭 필요한 항목만 보이도록 구성했습니다. 방/화장실/시설은 각 행의 “추가정보”를 눌러 필요할 때만 적을 수 있어요.</p>
+        <div class="table-wrap wide">
+          <table class="data-table" id="lodgingsTable"></table>
+        </div>
+      </section>
+
+      <section id="transport" class="tab-page">
+        <div class="section-title">
+          <div>
+            <p class="eyebrow">Transport</p>
+            <h2>교통비 정리</h2>
+          </div>
+          <div class="action-row">
+            <button class="btn primary" id="addTransportBtn">+ 교통 행 추가</button>
+            <button class="btn ghost" data-copy="transport">표 복사</button>
+            <button class="btn ghost" data-csv="transport">CSV 다운로드</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table" id="transportTable"></table>
+        </div>
+      </section>
+
+      <section id="budget" class="tab-page">
+        <div class="section-title">
+          <div>
+            <p class="eyebrow">Budget</p>
+            <h2>계산 정리 페이지</h2>
+          </div>
+          <div class="action-row">
+            <button class="btn primary" id="syncBudgetBtn">숙소/교통/음식 금액 반영</button>
+            <button class="btn ghost" data-copy="budget">표 복사</button>
+            <button class="btn ghost" data-csv="budget">CSV 다운로드</button>
+          </div>
+        </div>
+        <div class="stats-grid" id="budgetCards"></div>
+        <div class="split-grid">
+          <article class="card">
+            <div class="section-title compact">
+              <h3>음식/식비 계획</h3>
+              <button class="btn ghost" id="addFoodBtn">+ 음식 행 추가</button>
+            </div>
+            <div class="table-wrap small-table">
+              <table class="data-table" id="foodTable"></table>
+            </div>
+          </article>
+          <article class="card">
+            <div class="section-title compact">
+              <h3>기타 예산 항목</h3>
+              <button class="btn ghost" id="addBudgetBtn">+ 항목 추가</button>
+            </div>
+            <div class="table-wrap small-table">
+              <table class="data-table" id="budgetTable"></table>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="schedule" class="tab-page">
+        <div class="section-title">
+          <div>
+            <p class="eyebrow">Schedule</p>
+            <h2>한눈에 보는 MT 일정표</h2>
+          </div>
+          <div class="action-row">
+            <button class="btn primary" id="addScheduleBtn">+ 일정 행 추가</button>
+            <button class="btn ghost" data-copy="schedule">표 복사</button>
+            <button class="btn ghost" data-csv="schedule">CSV 다운로드</button>
+          </div>
+        </div>
+        <div class="table-wrap wide">
+          <table class="data-table" id="scheduleTable"></table>
+        </div>
+      </section>
+
+      <section id="games" class="tab-page">
+        <div class="section-title">
+          <div>
+            <p class="eyebrow">Games</p>
+            <h2>게임 후보 설명표</h2>
+          </div>
+          <div class="action-row">
+            <button class="btn primary" id="addGameBtn">+ 게임 행 추가</button>
+            <button class="btn ghost" data-copy="games">표 복사</button>
+            <button class="btn ghost" data-csv="games">CSV 다운로드</button>
+          </div>
+        </div>
+        <p class="mini-help">게임을 고르는 것보다 중요한 건 “진행자가 설명하기 쉬운 형태”로 정리하는 것입니다. 룰, 준비물, 더 재밌게 하는 방법을 표로 정리해두면 회의 때 바로 공유하기 좋습니다.</p>
+        <div class="table-wrap wide">
+          <table class="data-table" id="gamesTable"></table>
+        </div>
+      </section>
+
+      <section id="backup" class="tab-page">
+        <div class="section-title">
+          <div>
+            <p class="eyebrow">Share & Backup</p>
+            <h2>공유, 백업, 복구</h2>
+          </div>
+          <div class="action-row">
+            <button class="btn primary" id="downloadBackupBtn">전체 백업 다운로드</button>
+            <button class="btn danger" id="resetAllBtn">전체 초기화</button>
+          </div>
+        </div>
+        <div class="split-grid">
+          <article class="card">
+            <h3>백업 가져오기</h3>
+            <p class="mini-help">다른 사람이 보낸 JSON 백업 파일을 가져오면 같은 내용을 이어서 볼 수 있습니다.</p>
+            <input id="backupFile" type="file" accept="application/json" />
+          </article>
+          <article class="card">
+            <h3>삭제 항목 복구</h3>
+            <p class="mini-help">실수로 삭제한 행은 휴지통에서 복구할 수 있습니다.</p>
+            <div id="trashList" class="trash-list"></div>
+          </article>
+        </div>
+        <article class="card">
+          <h3>공유용 요약</h3>
+          <textarea id="summaryText" readonly></textarea>
+          <button class="btn ghost" id="copyLongSummaryBtn">공유용 요약 복사</button>
+        </article>
+      </section>
+    </section>
   </main>
-  <footer class="footer">MT-Mate · 학생회와 동아리를 위한 MT 기획 관리 웹앱</footer>
+
+  <div id="toast" class="toast"></div>
   <script src="script.js"></script>
 </body>
 </html>
