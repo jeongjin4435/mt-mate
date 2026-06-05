@@ -17,30 +17,47 @@
   <main>
     <section class="page-title">
       <h1>Lodging</h1>
-      <p>지역별 숙소 후보와 가격, 추가 인원 요금, 방/화장실, 특징, 링크를 비교합니다.</p>
+      <p>숙소 후보를 빠르게 기록하고, 지역·가격·인원 기준으로 간단하게 비교합니다.</p>
     </section>
     
 <section class="section">
-  <form id="lodgingForm" class="form-card">
-    <div class="form-grid four">
-      <div><label>숙소명</label><input name="name" required placeholder="예: 가평 ○○펜션"></div>
-      <div><label>지역</label><input name="region" required placeholder="가평 / 대부도 / 양평"></div>
-      <div><label>숙소 링크</label><input name="link" placeholder="https://..."></div>
-      <div><label>평점</label><input name="score" type="number" min="0" max="10" value="7"></div>
-      <div><label>기준 가격</label><input name="basePrice" type="number" value="0"></div>
-      <div><label>기준 인원</label><input name="basePeople" type="number" value="0"></div>
-      <div><label>추가 1인 요금</label><input name="extraFee" type="number" value="0"></div>
-      <div><label>예상 인원</label><input name="expectedPeople" type="number" value="0"></div>
-      <div><label>숙박 일수</label><input name="nights" type="number" value="1"></div>
-      <div><label>방 개수</label><input name="rooms" type="number" value="0"></div>
-      <div><label>화장실 개수</label><input name="baths" type="number" value="0"></div>
-      <div><label>시설/특징</label><input name="features" placeholder="바베큐, 수영장, 노래방"></div>
-      <div class="full"><label>장점</label><input name="pros" placeholder="가격 저렴, 단체 이용 가능, 역과 가까움"></div>
-      <div class="full"><label>단점</label><input name="cons" placeholder="추가금 있음, 방음 약함, 대중교통 불편"></div>
+  <div class="recent-box">
+    <div>
+      <strong>최근 선택한 지역</strong>
+      <p>숙소를 추가하면 최근 고른 지역이 최대 3개까지 저장됩니다.</p>
     </div>
+    <div id="recentRegionList" class="recent-region-list"></div>
+  </div>
+
+  <form id="lodgingForm" class="form-card">
+    <div class="form-grid three">
+      <div><label>숙소명</label><input name="name" required placeholder="예: 대부도 ○○펜션"></div>
+      <div><label>지역 선택</label><select name="region" id="lodgingRegionSelect" required></select></div>
+      <div><label>숙소 링크</label><input name="link" placeholder="https://..."></div>
+      <div><label>기준 가격</label><input name="basePrice" type="number" min="0" value="0"></div>
+      <div><label>기준 인원</label><input name="basePeople" type="number" min="0" value="0"></div>
+      <div><label>추가 1인 요금</label><input name="extraFee" type="number" min="0" value="0"></div>
+      <div><label>예상 인원</label><input name="expectedPeople" type="number" min="0" value="0"></div>
+      <div><label>최대 수용 인원</label><input name="maxPeople" type="number" min="0" value="0"></div>
+      <div><label>숙박 일수</label><input name="nights" type="number" min="1" value="1"></div>
+      <div class="full"><label>핵심 특징</label><input name="features" placeholder="예: 바베큐 가능, 단체 이용 가능, 역에서 가까움"></div>
+    </div>
+
+    <details class="extra-fields">
+      <summary>방 개수, 화장실, 장단점 등 추가 정보 입력하기</summary>
+      <div class="form-grid three extra-grid">
+        <div><label>방 개수</label><input name="rooms" type="number" min="0" placeholder="선택 입력"></div>
+        <div><label>화장실 개수</label><input name="baths" type="number" min="0" placeholder="선택 입력"></div>
+        <div><label>평점</label><input name="score" type="number" min="0" max="10" placeholder="0~10"></div>
+        <div class="full"><label>장점</label><input name="pros" placeholder="예: 가격 저렴, 공간 넓음, 단체 게임하기 좋음"></div>
+        <div class="full"><label>단점</label><input name="cons" placeholder="예: 대중교통 불편, 추가금 있음, 예약 마감 빠름"></div>
+        <div class="full"><label>추가 메모</label><textarea name="memo" placeholder="문의 내용, 예약 조건, 입실/퇴실 시간 등을 적어두세요."></textarea></div>
+      </div>
+    </details>
+
     <div class="actions"><button class="btn" type="submit">숙소 후보 추가</button></div>
   </form>
-  <div class="tool-row"><select id="regionFilter"></select><select id="lodgingSort"><option value="none">정렬 없음</option><option value="price">가격 낮은 순</option><option value="score">점수 높은 순</option><option value="people">예상 인원 많은 순</option></select></div>
+  <div class="tool-row"><select id="regionFilter"></select><select id="lodgingSort"><option value="none">정렬 없음</option><option value="price">가격 낮은 순</option><option value="people">예상 인원 많은 순</option><option value="capacity">최대 수용 인원 많은 순</option><option value="score">점수 높은 순</option></select></div>
   <div id="lodgingList" class="item-list"></div>
 </section>
 

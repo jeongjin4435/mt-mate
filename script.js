@@ -95,67 +95,136 @@ function exportCSV(filename, rows) {
 }
 
 // Lodging
+const lodgingRegions = [
+  '대부도', '가평', '양평', '강화도', '영종도', '파주', '포천', '용인', '화성', '수원', '오산',
+  '춘천', '홍천', '강릉', '속초', '평창', '양양',
+  '천안', '아산', '청주', '대전', '태안', '대천', '단양',
+  '전주', '군산', '여수', '순천', '광주',
+  '경주', '부산', '대구', '울산', '포항', '통영', '거제', '남해',
+  '서울', '인천', '제주'
+];
+
 function initLodging() {
   const key = 'mtLodgings';
+  const recentKey = 'mtRecentRegions';
   let lodgings = getStore(key);
+  let recentRegions = getStore(recentKey);
   const form = $('#lodgingForm');
   const list = $('#lodgingList');
+  const regionSelect = $('#lodgingRegionSelect');
+  const recentList = $('#recentRegionList');
   const regionFilter = $('#regionFilter');
   const sort = $('#lodgingSort');
 
-  function total(l) {
-    const extraPeople = Math.max(0, Number(l.expectedPeople) - Number(l.basePeople));
-    return (Number(l.basePrice) + extraPeople * Number(l.extraFee)) * Math.max(1, Number(l.nights));
+  function regionOptions(includeAll = false) {
+    const options = lodgingRegions.map(r => `<option value="${r}">${r}</option>`).join('');
+    return includeAll ? `<option value="all">전체 지역</option>${options}` : `<option value="">지역을 선택하세요</option>${options}`;
   }
+
+  function total(l) {
+    const basePrice = Number(l.basePrice || 0);
+    const basePeople = Number(l.basePeople || 0);
+    const expectedPeople = Number(l.expectedPeople || 0);
+    const extraFee = Number(l.extraFee || 0);
+    const nights = Math.max(1, Number(l.nights || 1));
+    const extraPeople = Math.max(0, expectedPeople - basePeople);
+    return (basePrice + extraPeople * extraFee) * nights;
+  }
+
+  function updateRecent(region) {
+    if (!region) return;
+    recentRegions = [region, ...recentRegions.filter(r => r !== region)].slice(0, 3);
+    setStore(recentKey, recentRegions);
+  }
+
+  function renderRecent() {
+    recentList.innerHTML = recentRegions.length
+      ? recentRegions.map(r => `<button type="button" class="region-chip" data-region-chip="${r}">${r}</button>`).join('')
+      : '<span class="empty-inline">아직 선택한 지역이 없습니다.</span>';
+  }
+
   function render() {
-    const regions = [...new Set(lodgings.map(l => l.region).filter(Boolean))];
-    regionFilter.innerHTML = `<option value="all">전체 지역</option>` + regions.map(r => `<option value="${r}">${r}</option>`).join('');
-    const selectedRegion = regionFilter.dataset.value || 'all';
-    regionFilter.value = selectedRegion;
+    if (regionSelect && !regionSelect.innerHTML) regionSelect.innerHTML = regionOptions(false);
+    if (regionFilter && !regionFilter.innerHTML) regionFilter.innerHTML = regionOptions(true);
+    renderRecent();
+
+    const selectedRegion = regionFilter?.dataset.value || 'all';
+    if (regionFilter) regionFilter.value = selectedRegion;
 
     let filtered = lodgings.filter(l => selectedRegion === 'all' || l.region === selectedRegion);
-    if (sort.value === 'price') filtered.sort((a,b) => total(a) - total(b));
-    if (sort.value === 'score') filtered.sort((a,b) => Number(b.score) - Number(a.score));
-    if (sort.value === 'people') filtered.sort((a,b) => Number(b.expectedPeople) - Number(a.expectedPeople));
+    if (sort?.value === 'price') filtered.sort((a,b) => total(a) - total(b));
+    if (sort?.value === 'score') filtered.sort((a,b) => Number(b.score || 0) - Number(a.score || 0));
+    if (sort?.value === 'people') filtered.sort((a,b) => Number(b.expectedPeople || 0) - Number(a.expectedPeople || 0));
+    if (sort?.value === 'capacity') filtered.sort((a,b) => Number(b.maxPeople || 0) - Number(a.maxPeople || 0));
 
     list.innerHTML = filtered.length ? filtered.map(l => {
       const t = total(l);
-      const per = Number(l.expectedPeople) ? Math.ceil(t / Number(l.expectedPeople)) : 0;
+      const expected = Number(l.expectedPeople || 0);
+      const per = expected ? Math.ceil(t / expected) : 0;
+      const basePeople = Number(l.basePeople || 0);
+      const extraPeople = Math.max(0, expected - basePeople);
+      const detailItems = [
+        l.rooms ? `<span class="pill">방 ${l.rooms}개</span>` : '',
+        l.baths ? `<span class="pill">화장실 ${l.baths}개</span>` : '',
+        l.score ? `<span class="pill warning">점수 ${l.score}/10</span>` : ''
+      ].filter(Boolean).join('');
+      const hasDetails = detailItems || l.pros || l.cons || l.memo;
       return `
-      <article class="item-card">
+      <article class="item-card lodging-card">
         <div class="item-top">
           <div>
             <h3>${l.name}</h3>
             <div class="meta">
               <span class="pill primary">${l.region}</span>
-              <span class="pill">방 ${l.rooms || 0}개</span>
-              <span class="pill">화장실 ${l.baths || 0}개</span>
-              <span class="pill warning">점수 ${l.score || 0}/10</span>
+              <span class="pill">최대 ${l.maxPeople || '-'}명</span>
+              <span class="pill">예상 ${l.expectedPeople || '-'}명</span>
             </div>
           </div>
           <button class="btn small danger" data-delete="${l.id}">삭제</button>
         </div>
-        <p><strong>총 숙소비:</strong> ${money(t)} / <strong>1인당:</strong> ${money(per)}</p>
-        <p><strong>계산:</strong> 기준 ${l.basePeople}명 ${money(l.basePrice)} + 추가 ${money(l.extraFee)} × 초과 인원 × ${l.nights}박</p>
-        <p><strong>특징:</strong> ${l.features || '-'}</p>
-        <p><strong>장점:</strong> ${l.pros || '-'} / <strong>단점:</strong> ${l.cons || '-'}</p>
+        <div class="lodging-price-box">
+          <p><strong>총 숙소비</strong> ${money(t)}</p>
+          <p><strong>1인당</strong> ${money(per)}</p>
+        </div>
+        <p><strong>계산 기준:</strong> 기준 ${l.basePeople || 0}명 ${money(l.basePrice)} + 추가 ${money(l.extraFee)} × 초과 ${extraPeople}명 × ${l.nights || 1}박</p>
+        <p><strong>핵심 특징:</strong> ${l.features || '-'}</p>
         <p><strong>링크:</strong> ${l.link ? `<a href="${l.link}" target="_blank" rel="noreferrer">숙소 페이지 열기</a>` : '-'}</p>
+        ${hasDetails ? `<details class="card-details"><summary>추가 정보 보기</summary><div class="meta">${detailItems}</div>${l.pros ? `<p><strong>장점:</strong> ${l.pros}</p>` : ''}${l.cons ? `<p><strong>단점:</strong> ${l.cons}</p>` : ''}${l.memo ? `<p><strong>메모:</strong> ${l.memo}</p>` : ''}</details>` : ''}
       </article>`;
     }).join('') : '<p class="empty">숙소 후보를 추가해보세요.</p>';
     setStore(key, lodgings);
   }
+
+  regionSelect && (regionSelect.innerHTML = regionOptions(false));
+  regionFilter && (regionFilter.innerHTML = regionOptions(true));
+
   form?.addEventListener('submit', e => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(form).entries());
-    if (!data.name || !data.region) return alert('숙소명과 지역을 입력해주세요.');
+    if (!data.name || !data.region) return alert('숙소명과 지역을 선택해주세요.');
+    updateRecent(data.region);
     lodgings.push({ id: uid(), ...data });
     form.reset();
+    if (regionSelect) regionSelect.value = data.region;
     render();
   });
+
   list?.addEventListener('click', e => {
     const id = e.target.dataset.delete;
     if (id) { lodgings = lodgings.filter(l => l.id !== id); render(); }
   });
+
+  recentList?.addEventListener('click', e => {
+    const region = e.target.dataset.regionChip;
+    if (!region) return;
+    if (regionSelect) regionSelect.value = region;
+    if (regionFilter) {
+      regionFilter.dataset.value = region;
+      regionFilter.value = region;
+    }
+    render();
+  });
+
   regionFilter?.addEventListener('change', e => { regionFilter.dataset.value = e.target.value; render(); });
   sort?.addEventListener('change', render);
   render();

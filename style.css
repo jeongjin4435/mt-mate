@@ -283,3 +283,71 @@ tr:last-child td { border-bottom: 0; }
   .card, .form-card, .item-card, .page-title, .table-wrap { box-shadow: none; border-color: #ddd; }
   .print-only { display: block; }
 }
+
+
+/* Lodging simplified UI */
+.recent-box {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 16px 18px;
+  box-shadow: var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.recent-box p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+.recent-region-list { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+.region-chip {
+  border: 1px solid var(--line);
+  background: var(--surface-soft);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-weight: 800;
+}
+.region-chip:hover { background: var(--primary); color: #fff; }
+.empty-inline { color: var(--muted); font-size: 13px; }
+.extra-fields {
+  margin-top: 16px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--surface-soft) 72%, var(--surface));
+  padding: 0;
+  overflow: hidden;
+}
+.extra-fields summary {
+  cursor: pointer;
+  padding: 13px 15px;
+  font-weight: 900;
+  color: var(--text);
+}
+.extra-fields[open] summary { border-bottom: 1px solid var(--line); }
+.extra-grid { padding: 15px; }
+.lodging-price-box {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 12px 0;
+}
+.lodging-price-box p {
+  margin: 0;
+  padding: 12px;
+  background: var(--surface-soft);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+.lodging-price-box strong { display: block; color: var(--muted); font-size: 12px; }
+.card-details {
+  margin-top: 10px;
+  border-top: 1px dashed var(--line);
+  padding-top: 10px;
+}
+.card-details summary { cursor: pointer; font-weight: 900; color: var(--primary); }
+@media (max-width: 900px) {
+  .recent-box { align-items: flex-start; flex-direction: column; }
+  .recent-region-list { justify-content: flex-start; }
+  .lodging-price-box { grid-template-columns: 1fr; }
+}
