@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Participants | MT-Mate</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="participants">
+  <header class="site-header">
+    <nav class="navbar">
+      <a class="logo" href="index.html"><span class="logo-mark">MT</span><span>MT-Mate</span></a>
+      <div class="nav-links"><a href="index.html">Home</a><a href="participants.html">Participants</a><a href="lodging.html">Lodging</a><a href="transport.html">Transport</a><a href="schedule.html">Schedule</a><a href="budget.html">Budget</a><a href="games.html">Games</a><a href="checklist.html">Checklist</a><a href="roles.html">Roles</a></div>
+      <button id="themeToggle" class="theme-toggle" aria-label="테마 변경">🌙</button>
+    </nav>
+  </header>
+  <main>
+    <section class="page-title">
+      <h1>Participants</h1>
+      <p>누가 오는지, 입금했는지, 연락처와 메모를 한 번에 정리합니다.</p>
+    </section>
+    
+<section class="section">
+  <div class="summary-grid">
+    <div class="summary-card"><span>전체 등록</span><strong id="participantTotal">0</strong></div>
+    <div class="summary-card"><span>입금 완료</span><strong id="participantPaid">0</strong></div>
+    <div class="summary-card"><span>미입금</span><strong id="participantUnpaid">0</strong></div>
+    <div class="summary-card"><span>참석 예정</span><strong id="participantAttend">0</strong></div>
+  </div>
+  <form id="participantForm" class="form-card">
+    <div class="form-grid four">
+      <div><label>이름</label><input name="name" placeholder="이정진" required></div>
+      <div><label>학번</label><input name="studentId" placeholder="2025xxxx"></div>
+      <div><label>전화번호</label><input name="phone" placeholder="010-0000-0000"></div>
+      <div><label>참석 여부</label><select name="attend"><option>참석</option><option>불참</option><option>미정</option></select></div>
+      <div><label>입금 여부</label><select name="deposit"><option value="unpaid">미입금</option><option value="paid">입금 완료</option></select></div>
+      <div class="full"><label>메모</label><input name="note" placeholder="알레르기, 버스 탑승 여부, 회비 관련 메모"></div>
+    </div>
+    <div class="actions"><button class="btn" type="submit">참가자 추가</button><button class="btn secondary" id="exportParticipants" type="button">CSV 내보내기</button></div>
+  </form>
+  <div class="tool-row"><input id="participantSearch" placeholder="이름/학번/전화번호 검색"><select id="depositFilter"><option value="all">전체</option><option value="paid">입금 완료</option><option value="unpaid">미입금</option></select></div>
+  <div class="table-wrap"><table><thead><tr><th>이름</th><th>학번</th><th>전화번호</th><th>입금 여부</th><th>메모</th><th>관리</th></tr></thead><tbody id="participantTableBody"></tbody></table></div>
+  <p class="notice">개인정보가 포함될 수 있으므로 실제 배포용 링크에 민감한 정보를 입력하지 않는 것을 권장합니다.</p>
+</section>
+
+  </main>
+  <footer class="footer">MT-Mate · 학생회와 동아리를 위한 MT 기획 관리 웹앱</footer>
+  <script src="script.js"></script>
+</body>
+</html>

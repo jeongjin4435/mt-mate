@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checklist | MT-Mate</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="checklist">
+  <header class="site-header">
+    <nav class="navbar">
+      <a class="logo" href="index.html"><span class="logo-mark">MT</span><span>MT-Mate</span></a>
+      <div class="nav-links"><a href="index.html">Home</a><a href="participants.html">Participants</a><a href="lodging.html">Lodging</a><a href="transport.html">Transport</a><a href="schedule.html">Schedule</a><a href="budget.html">Budget</a><a href="games.html">Games</a><a href="checklist.html">Checklist</a><a href="roles.html">Roles</a></div>
+      <button id="themeToggle" class="theme-toggle" aria-label="테마 변경">🌙</button>
+    </nav>
+  </header>
+  <main>
+    <section class="page-title">
+      <h1>Checklist</h1>
+      <p>준비물을 카테고리별로 추가하고 완료율을 확인합니다.</p>
+    </section>
+    
+<section class="section">
+  <div class="progress-box"><strong id="checkProgressText">0/0 완료</strong><div class="progress-track"><div id="checkProgressFill" class="progress-fill"></div></div></div>
+  <form id="checklistForm" class="form-card section">
+    <div class="form-grid four">
+      <div><label>카테고리</label><select name="category"><option>음식</option><option>게임 준비물</option><option>구급약</option><option>숙소용품</option><option>학생회 준비물</option><option>개인 준비물</option></select></div>
+      <div><label>준비물</label><input name="item" placeholder="타이머, 종이컵, 상비약" required></div>
+      <div><label>담당자</label><input name="owner" placeholder="홍길동"></div>
+    </div>
+    <div class="actions"><button class="btn" type="submit">준비물 추가</button></div>
+  </form>
+  <div id="checklistList" class="item-list section"></div>
+</section>
+
+  </main>
+  <footer class="footer">MT-Mate · 학생회와 동아리를 위한 MT 기획 관리 웹앱</footer>
+  <script src="script.js"></script>
+</body>
+</html>

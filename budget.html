@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Budget | MT-Mate</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-page="budget">
+  <header class="site-header">
+    <nav class="navbar">
+      <a class="logo" href="index.html"><span class="logo-mark">MT</span><span>MT-Mate</span></a>
+      <div class="nav-links"><a href="index.html">Home</a><a href="participants.html">Participants</a><a href="lodging.html">Lodging</a><a href="transport.html">Transport</a><a href="schedule.html">Schedule</a><a href="budget.html">Budget</a><a href="games.html">Games</a><a href="checklist.html">Checklist</a><a href="roles.html">Roles</a></div>
+      <button id="themeToggle" class="theme-toggle" aria-label="테마 변경">🌙</button>
+    </nav>
+  </header>
+  <main>
+    <section class="page-title">
+      <h1>Budget</h1>
+      <p>숙소비, 인원 추가금, 교통비, 식비, 게임 준비비를 합산해 총액과 1인당 비용을 계산합니다.</p>
+    </section>
+    
+<section class="section">
+  <div class="summary-grid">
+    <div class="summary-card"><span>계산된 숙소비</span><strong id="calcLodging">0원</strong></div>
+    <div class="summary-card"><span>식비/장보기</span><strong id="calcFood">0원</strong></div>
+    <div class="summary-card"><span>총 예상 비용</span><strong id="calcTotal">0원</strong></div>
+    <div class="summary-card"><span>1인당 예상 비용</span><strong id="calcPerPerson">0원</strong></div>
+  </div>
+  <form class="form-card">
+    <div class="form-grid four">
+      <div><label>전체 참여 인원</label><input id="budgetPeople" class="budget-input" type="number" value="40"></div>
+      <div><label>숙소 기준 가격</label><input id="lodgingBase" class="budget-input" type="number" value="0"></div>
+      <div><label>숙소 기준 인원</label><input id="lodgingBasePeople" class="budget-input" type="number" value="0"></div>
+      <div><label>추가 1인 요금</label><input id="lodgingExtraFee" class="budget-input" type="number" value="0"></div>
+      <div><label>실제 숙박 인원</label><input id="lodgingActualPeople" class="budget-input" type="number" value="40"></div>
+      <div><label>숙박 일수</label><input id="lodgingNights" class="budget-input" type="number" value="1"></div>
+      <div><label>교통비 총액</label><input id="budgetTransport" class="budget-input" type="number" value="0"></div>
+      <div><label>게임/레크 준비비</label><input id="budgetGame" class="budget-input" type="number" value="0"></div>
+      <div><label>예비비</label><input id="budgetEmergency" class="budget-input" type="number" value="0"></div>
+      <div><label>기타 비용</label><input id="budgetEtc" class="budget-input" type="number" value="0"></div>
+    </div>
+  </form>
+</section>
+<section class="section">
+  <div class="section-head"><div><h2>식비/음식 계획</h2><p>바베큐, 간식, 아침, 물, 음료처럼 음식 비용을 따로 정리합니다.</p></div></div>
+  <form id="foodForm" class="form-card">
+    <div class="form-grid four">
+      <div><label>항목명</label><input name="name" placeholder="바베큐 고기" required></div>
+      <div><label>분류</label><select name="category"><option>식사</option><option>간식</option><option>음료</option><option>장보기</option><option>기타</option></select></div>
+      <div><label>예상 비용</label><input name="cost" type="number" value="0"></div>
+      <div><label>메모</label><input name="memo" placeholder="몇 인분, 구매처 등"></div>
+    </div>
+    <div class="actions"><button class="btn" type="submit">음식 비용 추가</button></div>
+  </form>
+  <div id="foodList" class="item-list section"></div>
+</section>
+
+  </main>
+  <footer class="footer">MT-Mate · 학생회와 동아리를 위한 MT 기획 관리 웹앱</footer>
+  <script src="script.js"></script>
+</body>
+</html>
